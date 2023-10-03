@@ -40,3 +40,5 @@ When I was trying to setup this system using branching paths, I thought of ideas
 	
 	There is more to think about when designing the concentric circles, but for now I know what I
 	need to do to get the basic setup up and running.
+
+It's time to properly help people learn how to surpass their limits/limiting beliefs
