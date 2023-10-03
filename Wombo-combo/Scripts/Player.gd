@@ -26,3 +26,23 @@ func _physics_process(delta):
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 
 	move_and_slide()
+
+
+func _on_animated_sprite_2d_animation_changed():
+	pass # Replace with function body.
+
+
+func _on_animated_sprite_2d_sprite_frames_changed():
+	pass # Replace with function body.
+
+
+func _on_animated_sprite_2d_frame_changed():
+	pass # Replace with function body.
+
+
+func _on_animated_sprite_2d_animation_finished(extra_arg_0):
+	pass # Replace with function body.
+
+
+func _on_area_2d_body_entered(body):
+	pass # Replace with function body.

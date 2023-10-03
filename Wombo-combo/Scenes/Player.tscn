@@ -1,10 +1,11 @@
-[gd_scene load_steps=27 format=3 uid="uid://rpxrjmps5iu4"]
+[gd_scene load_steps=29 format=3 uid="uid://rpxrjmps5iu4"]
 
 [ext_resource type="Script" path="res://Scripts/Player.gd" id="1_rohmd"]
 [ext_resource type="Texture2D" uid="uid://g0jo30eiufkc" path="res://Player Character/Movement/Fall.png" id="2_xek2w"]
 [ext_resource type="Texture2D" uid="uid://breim7pwbflmp" path="res://Player Character/Movement/Idle.png" id="3_5vnhw"]
 [ext_resource type="Texture2D" uid="uid://bycenlk6to34l" path="res://Player Character/Movement/Jump.png" id="4_h6c1c"]
 [ext_resource type="Texture2D" uid="uid://cxy4mhqwsshlu" path="res://Player Character/Movement/Run.png" id="5_y6pdd"]
+[ext_resource type="Script" path="res://Scripts/Spiderweb.gd" id="6_k61kh"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_d14js"]
 
@@ -164,8 +165,13 @@ animations = [{
 "speed": 10.0
 }]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_le7nx"]
+
 [node name="CharacterBody2D" type="CharacterBody2D"]
 script = ExtResource("1_rohmd")
+
+[node name="Node" type="Node" parent="."]
+script = ExtResource("6_k61kh")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_d14js")
@@ -175,3 +181,15 @@ sprite_frames = SubResource("SpriteFrames_jxqtb")
 animation = &"Idle"
 frame = 4
 frame_progress = 0.461008
+
+[node name="Area2D" type="Area2D" parent="."]
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_le7nx")
+
+[connection signal="animation_changed" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_changed"]
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished" binds= ["arg"]]
+[connection signal="frame_changed" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_frame_changed"]
+[connection signal="sprite_frames_changed" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_sprite_frames_changed"]
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
