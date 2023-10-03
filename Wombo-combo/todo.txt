@@ -1,0 +1,42 @@
+For attacks, I will choose the approach of setting the velocity for the character once an attack 
+	animation starts and have everything involved with the attack be dealt with in that function.
+	I may even put the function in it's own script apart from the characterbody2d node.
+
+To get combos working isn't too much of a hassle, once again additional input checking will be done 
+	in animation update methods.
+
+For the actual combo system, there is a separate node that will handle all of the rules processing
+	and calculations needed to transition to the right attack as well as determine how long a
+	combo should go on for. 
+	
+	All finisher moves will end a combo. Combos themselves end once the player has hit an arbitrary
+	limit on attacks such as 50. Assuming the threshold is 50, all finishers will add +50 to a
+	variable that holds the combo value. Maybe I'll let the player increase this a bit. Normal 
+	attacks will add anywhere from +1 to +10. As long as the threshold is not reached or the player 
+	doesn't stop the combo, then we will keep going back and forth between light and heavy attacks.
+	
+	I will refer to this setup as my 'concentric circles' or 'spiderweb'
+
+When I was trying to setup this system using branching paths, I thought of ideas like alternate
+	paths, and branch jumping. The idea behind these is that I felt that we needed to give players
+	something to think about when playing instead of mindlessly mashing buttons. 
+	
+	'Branch jumping' is sort of built into the spiderweb setup because you can just jump around 
+	through all the available attacks depending on what button is pressed and choose a different 
+	tactic if one happens to not work well.
+	
+	Alternate branches were supposed to be a way to change up strategy slightly by going down a
+	hidden branch where the attacks you performed were related to the original branch of attacks
+	but not completely identical attacks.
+	
+	The concentric circles setup basically throws all of that away.
+	
+	This system still must abide by the rules I have set, that all buttons that map to an
+	attack needs to transition to an attack when pressed or none of them can. That's the all or none
+	rule.
+	
+	There will still only be one combo at a time, and there will still only be one button for one
+	attack.
+	
+	There is more to think about when designing the concentric circles, but for now I know what I
+	need to do to get the basic setup up and running.
