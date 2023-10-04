@@ -42,3 +42,9 @@ When I was trying to setup this system using branching paths, I thought of ideas
 	need to do to get the basic setup up and running.
 
 It's time to properly help people learn how to surpass their limits/limiting beliefs
+
+
+
+For making attacks give knockback and to set hitboxes, find 1 frame to set the hitbox active for 
+	and forget about the rest of the attacks. Set knockback velocity in physics_process where you 
+	can calculate exactly how far the knockback will send an enemy character.
