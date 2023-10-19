@@ -50,3 +50,7 @@ For making attacks give knockback and to set hitboxes, find 1 frame to set the h
 	can calculate exactly how far the knockback will send an enemy character.
 
 Make sure to read data from notes and save it to animation data files: starters, attacks, & finishers
+
+Write find_property(type: String)
+
+Write functions for parsing notes: parse_property and parse_value or just parse_property
