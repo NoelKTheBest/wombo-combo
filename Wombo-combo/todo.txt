@@ -54,3 +54,4 @@ Make sure to read data from notes and save it to animation data files: starters,
 Write find_property(type: String)
 
 Write functions for parsing notes: parse_property and parse_value or just parse_property
+	- fix y value incorrect read from FileAccess
