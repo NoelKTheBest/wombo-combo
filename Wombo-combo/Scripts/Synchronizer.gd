@@ -3,6 +3,7 @@ extends Node
 var starters = []
 
 var file = 'res://starters.txt'
+var notes = 'res://notes.txt'
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -17,10 +18,15 @@ func _ready():
 	for i in starter_animations.size():
 		starters.append(Anim.new())
 	
-	print(seek_to_index(0))
-	print(seek_to_index(5))
-	print(seek_to_index(9))
+	#print(seek_to_index(0))
+	#print(seek_to_index(5))
+	#print(seek_to_index(9))
 	
+	#print(find_property('p'))
+	#print(find_property('h'))
+	#print(find_property('k'))
+	
+	parse_notes()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -29,11 +35,25 @@ func _process(delta):
 
 
 func find_property(property: String):
-	# Look for correct property out of the 3 possible choices
+	var f = FileAccess.open(file, FileAccess.READ)
+	f.seek(2)
 	
-	# Pass file and cursor info to seek_to_index()
+	var cursor_position: int = 0
+	var prop = f.get_8()
 	
-	print(property)
+	while char(prop) != property:
+		f.get_line()
+		prop = f.get_8()
+	
+	cursor_position = f.get_position() - 1
+	
+	print(char(prop))
+	
+	f.close()
+	
+	# Pass cursor position and cursor info to seek_to_index()
+	
+	return cursor_position
 
 
 func seek_to_index(index: int):
@@ -64,7 +84,7 @@ func seek_to_index(index: int):
 	# Get Data
 	if int(char(content)) == index:
 		f.seek(f.get_position() + 1)
-
+		
 		
 		# Get x value
 		content = char(f.get_8())
@@ -89,7 +109,67 @@ func seek_to_index(index: int):
 	return Vector2(x, y) if typeof(x) == typeof(0) else Vector2(0, 0)
 
 
+func parse_notes():
+	var f = FileAccess.open(notes, FileAccess.READ)
+	while !f.eof_reached():
+		if f.get_position() != 0:
+			f.seek(f.get_position() - 1)
+		
+		var content = f.get_8()
+		# Grab property
+		match char(content):
+			'p':
+				print("Position")
+			'h':
+				print("Hitbox Position")
+			'k':
+				print("Knockback")
+		
+		f.seek(f.get_position() + 1)
+		
+		# Grab index
+		var index = ""
+		
+		while char(content) != ';':
+			content = f.get_8()
+			if char(content) != ';':
+				index += char(content)
+		
+		print("Index: " + index)
+		
+		# Grab value
+		var x = ""
+		var y = ""
+		
+			# Get x value
+		content = char(f.get_8())
+		while content != ',':
+			x = x + content
+			content = char(f.get_8())
+		
+		x = int(x)
+		
+		f.seek(f.get_position() + 1)
+		
+			# Get y value
+		content = char(f.get_8())
+		while content != '\n':
+			y = y + content
+			content = char(f.get_8())
+		
+		y = int(y)
+
+		
+		var value: Vector2 = Vector2(x, y)
+		print(value)
+		
+		if char(f.get_8()) == '\n':
+			pass
+	
+	f.close()
+
+
 class Anim:
-	var position = Vector2(0, 0)
-	var hitbox_position = Vector2(0, 0)
-	var knockback = Vector2(0, 0) 
+	var position: Vector2 = Vector2(0, 0)
+	var hitbox_position: Vector2 = Vector2(0, 0)
+	var knockback: Vector2 = Vector2(0, 0) 
