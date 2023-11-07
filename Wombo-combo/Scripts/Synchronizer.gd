@@ -13,7 +13,7 @@ func _ready():
 	for anim in animations:
 		if anim.contains("Start"):
 			starter_animations.append(anim)
-	print(starter_animations)
+	#print(starter_animations)
 	
 	for i in starter_animations.size():
 		starters.append(Anim.new())
@@ -149,8 +149,6 @@ func parse_notes():
 		
 		x = int(x)
 		
-		f.seek(f.get_position() + 1)
-		
 			# Get y value
 		content = char(f.get_8())
 		while content != '\n':
@@ -167,6 +165,16 @@ func parse_notes():
 			pass
 	
 	f.close()
+
+
+# Update data in animation data files from notes
+func update_data(property: String, index: int, value: Vector2):
+	pass
+
+
+# Add a property to an animation data file if needed
+func add_property(property: String, index: int, value: Vector2):
+	pass
 
 
 class Anim:

@@ -9,11 +9,12 @@ var finisher_path = "res://Player Character/Finishers/"
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	dir_contents(starter_path)
-	print("------------------")
-	dir_contents(attacks_path)
-	print("------------------")
-	dir_contents(finisher_path)
+	#dir_contents(starter_path)
+	#print("------------------")
+	#dir_contents(attacks_path)
+	#print("------------------")
+	#dir_contents(finisher_path)
+	pass
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
