@@ -1,9 +1,14 @@
 extends Node
 
+# Array to keep track of animations
 var starters = []
 
+# File paths
 var file = 'res://starters.txt'
 var notes = 'res://notes.txt'
+
+# Updates from notes file
+var updates = []
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -27,6 +32,8 @@ func _ready():
 	#print(find_property('k'))
 	
 	parse_notes()
+	print(updates)
+	update_data("", 0, Vector2.ZERO)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -47,8 +54,6 @@ func find_property(property: String):
 	
 	cursor_position = f.get_position() - 1
 	
-	print(char(prop))
-	
 	f.close()
 	
 	# Pass cursor position and cursor info to seek_to_index()
@@ -56,11 +61,10 @@ func find_property(property: String):
 	return cursor_position
 
 
-func seek_to_index(index: int):
-	# function responsible for moving the file cursor to the correct point to grab the data for the 
-	#	current animation
+# Seek to the provided index & return data stored there or return cursor position
+func seek_to_index(cursor_position: int, index: int, isRetrievingData: bool):
 	var f = FileAccess.open(file, FileAccess.READ)
-	f.seek(2)
+	f.seek(cursor_position)
 	
 	var x = ""
 	var y = ""
@@ -68,7 +72,7 @@ func seek_to_index(index: int):
 	f.seek(f.get_position() + 2)
 	
 	# Seek to index
-	var content = f.get_8() # seek 5
+	var content = f.get_8()
 	while int(char(content)) != index:
 		content = char(f.get_8())
 		while content != ';':
@@ -81,10 +85,12 @@ func seek_to_index(index: int):
 			f.close()
 			return Vector2(0, 0)
 	
+	# Once index is found, return position if we aren't retrieving data
+	if !isRetrievingData: return f.get_position()
+	
 	# Get Data
 	if int(char(content)) == index:
 		f.seek(f.get_position() + 1)
-		
 		
 		# Get x value
 		content = char(f.get_8())
@@ -110,20 +116,18 @@ func seek_to_index(index: int):
 
 
 func parse_notes():
+	var i = 0
 	var f = FileAccess.open(notes, FileAccess.READ)
 	while !f.eof_reached():
+		updates.append([])
 		if f.get_position() != 0:
 			f.seek(f.get_position() - 1)
 		
-		var content = f.get_8()
 		# Grab property
-		match char(content):
-			'p':
-				print("Position")
-			'h':
-				print("Hitbox Position")
-			'k':
-				print("Knockback")
+		var content = f.get_8()
+		
+		# Store property
+		updates[i].append(char(content))
 		
 		f.seek(f.get_position() + 1)
 		
@@ -135,7 +139,8 @@ func parse_notes():
 			if char(content) != ';':
 				index += char(content)
 		
-		print("Index: " + index)
+		# Store Index
+		updates[i].append(int(index))
 		
 		# Grab value
 		var x = ""
@@ -156,19 +161,42 @@ func parse_notes():
 			content = char(f.get_8())
 		
 		y = int(y)
-
 		
 		var value: Vector2 = Vector2(x, y)
-		print(value)
 		
+		# Store value
+		updates[i].append(value)
+		
+		i += 1
+		# Force read of character on next line, forces eof
 		if char(f.get_8()) == '\n':
 			pass
+		
 	
 	f.close()
 
 
 # Update data in animation data files from notes
 func update_data(property: String, index: int, value: Vector2):
+	var f = FileAccess.open(file,FileAccess.READ_WRITE)
+	
+	# Create copy of file contents to write to
+	var file_copy = f.get_as_text()
+	
+	# Close file
+	
+	# Grab all cursor positions for updates
+	for update in updates:
+		print(seek_to_index(find_property(update[0]), update[1], false))
+	
+#	print(file_copy.substr(14, 7))
+#	print(file_copy.substr(116, 7))
+#	print(file_copy.substr(141, 8))
+	
+	# Concatenate data to copy and pass it to write_updated_copy
+
+
+func write_updated_copy(copy: String):
 	pass
 
 
