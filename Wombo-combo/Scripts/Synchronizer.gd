@@ -34,6 +34,8 @@ func _ready():
 	parse_notes()
 	print(updates)
 	update_data("", 0, Vector2.ZERO)
+	
+#	write_updated_copy("aabody;ddbody;", "corn", 2)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -184,10 +186,12 @@ func update_data(property: String, index: int, value: Vector2):
 	var file_copy = f.get_as_text()
 	
 	# Close file
+	f.close()
 	
 	# Grab all cursor positions for updates
 	for update in updates:
-		print(seek_to_index(find_property(update[0]), update[1], false))
+		write_updated_copy(file_copy, str(update[2]) + ';', 
+			seek_to_index(find_property(update[0]), update[1], false))
 	
 #	print(file_copy.substr(14, 7))
 #	print(file_copy.substr(116, 7))
@@ -196,8 +200,19 @@ func update_data(property: String, index: int, value: Vector2):
 	# Concatenate data to copy and pass it to write_updated_copy
 
 
-func write_updated_copy(copy: String):
-	pass
+func write_updated_copy(copy: String, replacement: String, from: int = 0):
+#	print("before:\n" + copy)
+	var temp1 = copy.substr(0, from)
+	
+	var query = copy.substr(from)
+	query = query.substr(0, query.find(';') + 1)
+	
+	var temp2 = copy.substr(from + query.length())
+#	print(query)
+	query = query.replace(query, replacement)
+	copy = temp1 + query + temp2
+#	print("after:\n" + copy)
+	return copy
 
 
 # Add a property to an animation data file if needed
