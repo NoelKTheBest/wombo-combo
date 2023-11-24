@@ -545,7 +545,7 @@ animations = [{
 [node name="CharacterBody2D" type="CharacterBody2D"]
 script = ExtResource("1_rohmd")
 
-[node name="Node" type="Node" parent="."]
+[node name="Web" type="Node" parent="."]
 script = ExtResource("6_k61kh")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -557,7 +557,7 @@ sprite_frames = SubResource("SpriteFrames_jxqtb")
 animation = &"Start_Stab"
 frame_progress = 0.527467
 
-[node name="Node" type="Node" parent="AnimatedSprite2D"]
+[node name="Synchronizer" type="Node" parent="AnimatedSprite2D"]
 script = ExtResource("14_yebiq")
 
 [node name="Area2D" type="Area2D" parent="."]
