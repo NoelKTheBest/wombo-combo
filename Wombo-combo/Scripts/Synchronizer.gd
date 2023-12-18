@@ -1,7 +1,9 @@
 extends Node
 
-# Array to keep track of animations
+# Arrays to keep track of animations
 var starters = []
+var attacks = []
+var finishers = []
 
 # File paths
 var file = 'res://starters.txt'
@@ -18,24 +20,15 @@ func _ready():
 	for anim in animations:
 		if anim.contains("Start"):
 			starter_animations.append(anim)
-	#print(starter_animations)
 	
 	for i in starter_animations.size():
 		starters.append(Anim.new())
 	
-	#print(seek_to_index(0))
-	#print(seek_to_index(5))
-	#print(seek_to_index(9))
-	
-	#print(find_property('p'))
-	#print(find_property('h'))
-	#print(find_property('k'))
-	
+	# Read changes on startup
 	parse_notes()
-	print(updates)
+	# Make changes to property data before game starts running
 	update_data("", 0, Vector2.ZERO)
-	
-#	write_updated_copy("aabody;ddbody;", "corn", 2)
+#	clear_notes()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -43,6 +36,8 @@ func _process(delta):
 	pass
 
 
+# Searches through animation property data files to find the desired properties
+#	index
 func find_property(property: String):
 	var f = FileAccess.open(file, FileAccess.READ)
 	f.seek(2)
@@ -117,6 +112,8 @@ func seek_to_index(cursor_position: int, index: int, isRetrievingData: bool):
 	return Vector2(x, y) if typeof(x) == typeof(0) else Vector2(0, 0)
 
 
+# Parses the changes listed in the notes files and adds them as updates to an 
+#	update array
 func parse_notes():
 	var i = 0
 	var f = FileAccess.open(notes, FileAccess.READ)
@@ -193,26 +190,30 @@ func update_data(property: String, index: int, value: Vector2):
 		write_updated_copy(file_copy, str(update[2]) + ';', 
 			seek_to_index(find_property(update[0]), update[1], false))
 	
-#	print(file_copy.substr(14, 7))
-#	print(file_copy.substr(116, 7))
-#	print(file_copy.substr(141, 8))
-	
 	# Concatenate data to copy and pass it to write_updated_copy
 
 
+# Takes a copy of the file being used to save animation property data and makes
+#	 the changes listed in the notes file
 func write_updated_copy(copy: String, replacement: String, from: int = 0):
-#	print("before:\n" + copy)
 	var temp1 = copy.substr(0, from)
 	
 	var query = copy.substr(from)
 	query = query.substr(0, query.find(';') + 1)
 	
 	var temp2 = copy.substr(from + query.length())
-#	print(query)
+	
 	query = query.replace(query, replacement)
 	copy = temp1 + query + temp2
-#	print("after:\n" + copy)
+	
 	return copy
+
+
+func clear_notes():
+	# Clear data
+	var f = FileAccess.open(notes, FileAccess.WRITE)
+	f.store_8(0)
+	f.close()
 
 
 # Add a property to an animation data file if needed
