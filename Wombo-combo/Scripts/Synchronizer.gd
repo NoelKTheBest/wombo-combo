@@ -24,10 +24,20 @@ func _ready():
 	for i in starter_animations.size():
 		starters.append(Anim.new())
 	
+#	add_to_property('p', 8)
+#	add_to_property('p', 9, Vector2(2, 5))
+#	add_to_property('h', 3, Vector2(6, 9))
+#	add_to_property('h', 5, Vector2(4, 2))
+#	add_to_property('h', 7, Vector2(0, 10)) # add back to file
+#	print(add_to_property('k', 0, Vector2(1, 3)))
+	print(remove_at_index('p', 5))
+	print(remove_at_index('h', 4))
+	print(remove_at_index('p', 2))
+	
 	# Read changes on startup
-	parse_notes()
+#	parse_notes()
 	# Make changes to property data before game starts running
-	update_data("", 0, Vector2.ZERO)
+#	update_data()
 #	clear_notes()
 
 
@@ -60,6 +70,7 @@ func find_property(property: String):
 
 # Seek to the provided index & return data stored there or return cursor position
 func seek_to_index(cursor_position: int, index: int, isRetrievingData: bool):
+	var known_indices = []
 	var f = FileAccess.open(file, FileAccess.READ)
 	f.seek(cursor_position)
 	
@@ -71,15 +82,30 @@ func seek_to_index(cursor_position: int, index: int, isRetrievingData: bool):
 	# Seek to index
 	var content = f.get_8()
 	while int(char(content)) != index:
+		known_indices.append(int(char(content)))
 		content = char(f.get_8())
 		while content != ';':
 			content = char(f.get_8())
 		
 		content = f.get_8()
 		
-		# Return zero vector if index is not found
+		# Decide what to do if index is not found
 		if char(content) == ']':
+			if !isRetrievingData:
+				# Find where the index should be inserted in order
+				var index_to_find = insert_in_order(known_indices, index)
+				# Find the position where the new index will go
+				var null_position = f.get_position() - 1
+				f.close()
+				
+				# If the new index isn't in range of our known indices return null_position
+				if index_to_find >= known_indices[known_indices.size() - 1]:
+					return [null_position, 'null']
+				
+				# Return index to find
+				return [index_to_find, 'index']
 			f.close()
+			# Return zero vector if we are retrieving data
 			return Vector2(0, 0)
 	
 	# Once index is found, return position if we aren't retrieving data
@@ -176,7 +202,7 @@ func parse_notes():
 
 
 # Update data in animation data files from notes
-func update_data(property: String, index: int, value: Vector2):
+func update_data():
 	var f = FileAccess.open(file,FileAccess.READ_WRITE)
 	
 	# Create copy of file contents to write to
@@ -206,9 +232,11 @@ func write_updated_copy(copy: String, replacement: String, from: int = 0):
 	query = query.replace(query, replacement)
 	copy = temp1 + query + temp2
 	
+	print(copy)
 	return copy
 
 
+# Clears the notes file
 func clear_notes():
 	# Clear data
 	var f = FileAccess.open(notes, FileAccess.WRITE)
@@ -216,8 +244,68 @@ func clear_notes():
 	f.close()
 
 
+# Adds a value to a property at a specified index. Does not modify existing values
+func add_to_property(property: String, index: int, value: Vector2):
+	# Return 2 element array, the second element tells us what to do with the first
+	var results = seek_to_index(find_property(property), index, false)
+	if typeof(results) == typeof(0): return
+#	print(results)
+	
+	var f = FileAccess.open(file,FileAccess.READ_WRITE)
+	var file_copy = f.get_as_text()
+	f.close()
+	
+	var temp_position
+	var temp1
+	var temp2
+	var new_copy
+	if results[1] == 'index':
+		# Call seek_to_index once more
+		temp_position = seek_to_index(find_property(property), results[0], false) - 1
+		temp_position += file_copy.substr(temp_position).find(';') + 1
+		temp1 = file_copy.substr(0, temp_position)
+		temp2 = file_copy.substr(temp_position)
+		new_copy = temp1 + str(index) + str(value) + ';' + temp2
+	elif results[1] == 'null':
+		temp_position = results[0]
+		temp1 = file_copy.substr(0, temp_position)
+		temp2 = file_copy.substr(temp_position)
+		new_copy = temp1 + str(index) + str(value) + ';' + temp2
+	
+	print(new_copy)
+	return new_copy
+
+
+# Returns the last known index smaller than the given index
+func insert_in_order(indices: Array, index: int):
+	var i = 0
+	for num in indices:
+		if num > index:
+			# Returning the previous index element so we can get a position in 
+			#	between a larger and smaller index
+			return indices[i - 1] if i > 0 else indices[0]
+		
+		i += 1
+	
+	return i
+
+
+func remove_at_index(property: String, index: int):
+	var position = seek_to_index(find_property(property), index, false) - 1
+	
+	var f = FileAccess.open(file,FileAccess.READ_WRITE)
+	var file_copy = f.get_as_text()
+	f.close()
+	
+	var temp1 = file_copy.substr(0, position)
+	position += file_copy.substr(position).find(';') + 1
+	var temp2 = file_copy.substr(position)
+	
+	return temp1 + temp2
+
+
 # Add a property to an animation data file if needed
-func add_property(property: String, index: int, value: Vector2):
+func add_property(property: String):
 	pass
 
 
