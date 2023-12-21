@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://cmh1hlo2svqna"]
+
+[ext_resource type="Script" path="res://addons/my_custom_node/my_button.gd" id="1_8nkba"]
+
+[node name="test" type="Node2D"]
+
+[node name="MyButton" type="Button" parent="."]
+offset_right = 76.0
+offset_bottom = 59.0
+script = ExtResource("1_8nkba")

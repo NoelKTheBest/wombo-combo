@@ -49,4 +49,4 @@ For making attacks give knockback and to set hitboxes, find 1 frame to set the h
 	and forget about the rest of the attacks. Set knockback velocity in physics_process where you 
 	can calculate exactly how far the knockback will send an enemy character.
 
-Alter Synchronizer.gd to work with all types of attacks instead of just the starters
+Create a plugin for the AnimationSprite2D node
