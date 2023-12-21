@@ -6,7 +6,10 @@ var attacks = []
 var finishers = []
 
 # File paths
-var file = 'res://starters.txt'
+var starter_file = 'res://starters.txt'
+var attacks_file = 'res://attacks.txt'
+var finishers_file = 'res://finishers.txt'
+var file
 var notes = 'res://notes.txt'
 
 # Updates from notes file
@@ -24,21 +27,12 @@ func _ready():
 	for i in starter_animations.size():
 		starters.append(Anim.new())
 	
-#	add_to_property('p', 8)
-#	add_to_property('p', 9, Vector2(2, 5))
-#	add_to_property('h', 3, Vector2(6, 9))
-#	add_to_property('h', 5, Vector2(4, 2))
-#	add_to_property('h', 7, Vector2(0, 10)) # add back to file
-#	print(add_to_property('k', 0, Vector2(1, 3)))
-	print(remove_at_index('p', 5))
-	print(remove_at_index('h', 4))
-	print(remove_at_index('p', 2))
-	
 	# Read changes on startup
-#	parse_notes()
+	parse_notes()
+	
 	# Make changes to property data before game starts running
-#	update_data()
-#	clear_notes()
+	update_data()
+	clear_notes()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -56,10 +50,19 @@ func find_property(property: String):
 	var prop = f.get_8()
 	
 	while char(prop) != property:
+		if f.eof_reached(): break
 		f.get_line()
 		prop = f.get_8()
 	
+	if f.eof_reached(): return -1
+	
 	cursor_position = f.get_position() - 1
+	
+	var content 
+	f.seek(f.get_position() + 1)
+	content = f.get_8()
+	if char(content) == '-':
+		return -2
 	
 	f.close()
 	
@@ -70,6 +73,10 @@ func find_property(property: String):
 
 # Seek to the provided index & return data stored there or return cursor position
 func seek_to_index(cursor_position: int, index: int, isRetrievingData: bool):
+	if cursor_position == -1: return
+	if cursor_position == -2:
+		return [0,'null property']
+	
 	var known_indices = []
 	var f = FileAccess.open(file, FileAccess.READ)
 	f.seek(cursor_position)
@@ -109,7 +116,10 @@ func seek_to_index(cursor_position: int, index: int, isRetrievingData: bool):
 			return Vector2(0, 0)
 	
 	# Once index is found, return position if we aren't retrieving data
-	if !isRetrievingData: return f.get_position()
+	if !isRetrievingData: 
+		var return_position = f.get_position()
+		f.close()
+		return return_position
 	
 	# Get Data
 	if int(char(content)) == index:
@@ -143,6 +153,23 @@ func seek_to_index(cursor_position: int, index: int, isRetrievingData: bool):
 func parse_notes():
 	var i = 0
 	var f = FileAccess.open(notes, FileAccess.READ)
+	
+	# Check first 16 bits of file to see if there are any notes 
+	if f.get_16() == 0:
+		pass
+	else:
+		f.seek(0)
+		var type = f.get_8()
+		f.seek(f.get_position() + 2)
+		
+		match type:
+			49: # 1
+				file = starter_file
+			50: # 2
+				file = attacks_file
+			51: # 3
+				file = finishers_file
+	
 	while !f.eof_reached():
 		updates.append([])
 		if f.get_position() != 0:
@@ -171,7 +198,17 @@ func parse_notes():
 		var x = ""
 		var y = ""
 		
-			# Get x value
+		# Add value telling update_data() how to process the update
+		content = char(f.get_8())
+		if content == '+':
+			updates[i].append('insert')
+		elif content == '-':
+			updates[i].append('remove')
+		else:
+			updates[i].append('modify')
+			f.seek(f.get_position() - 1)
+		
+		# Get x value
 		content = char(f.get_8())
 		while content != ',':
 			x = x + content
@@ -179,7 +216,7 @@ func parse_notes():
 		
 		x = int(x)
 		
-			# Get y value
+		# Get y value
 		content = char(f.get_8())
 		while content != '\n':
 			y = y + content
@@ -203,6 +240,8 @@ func parse_notes():
 
 # Update data in animation data files from notes
 func update_data():
+	if updates.size() == 0: return
+	
 	var f = FileAccess.open(file,FileAccess.READ_WRITE)
 	
 	# Create copy of file contents to write to
@@ -213,15 +252,23 @@ func update_data():
 	
 	# Grab all cursor positions for updates
 	for update in updates:
-		write_updated_copy(file_copy, str(update[2]) + ';', 
+		if update[2] == 'modify':
+			file_copy = modify_at_index(file_copy, str(update[3]) + ';', 
 			seek_to_index(find_property(update[0]), update[1], false))
+		elif update[2] == 'insert':
+			file_copy = add_at_index(file_copy, update[0], update[1], update[3])
+		elif update[2] == 'remove':
+			file_copy = remove_at_index(file_copy, update[0], update[1])
 	
-	# Concatenate data to copy and pass it to write_updated_copy
+	# Reopen file to finalize changes
+	f = FileAccess.open(file, FileAccess.WRITE)
+	f.store_string(file_copy)
+	f.close()
 
 
 # Takes a copy of the file being used to save animation property data and makes
 #	 the changes listed in the notes file
-func write_updated_copy(copy: String, replacement: String, from: int = 0):
+func modify_at_index(copy: String, replacement: String, from: int = 0):
 	var temp1 = copy.substr(0, from)
 	
 	var query = copy.substr(from)
@@ -232,7 +279,6 @@ func write_updated_copy(copy: String, replacement: String, from: int = 0):
 	query = query.replace(query, replacement)
 	copy = temp1 + query + temp2
 	
-	print(copy)
 	return copy
 
 
@@ -245,15 +291,10 @@ func clear_notes():
 
 
 # Adds a value to a property at a specified index. Does not modify existing values
-func add_to_property(property: String, index: int, value: Vector2):
+func add_at_index(copy: String, property: String, index: int, value: Vector2):
 	# Return 2 element array, the second element tells us what to do with the first
 	var results = seek_to_index(find_property(property), index, false)
 	if typeof(results) == typeof(0): return
-#	print(results)
-	
-	var f = FileAccess.open(file,FileAccess.READ_WRITE)
-	var file_copy = f.get_as_text()
-	f.close()
 	
 	var temp_position
 	var temp1
@@ -262,17 +303,22 @@ func add_to_property(property: String, index: int, value: Vector2):
 	if results[1] == 'index':
 		# Call seek_to_index once more
 		temp_position = seek_to_index(find_property(property), results[0], false) - 1
-		temp_position += file_copy.substr(temp_position).find(';') + 1
-		temp1 = file_copy.substr(0, temp_position)
-		temp2 = file_copy.substr(temp_position)
+		temp_position += copy.substr(temp_position).find(';') + 1
+		temp1 = copy.substr(0, temp_position)
+		temp2 = copy.substr(temp_position)
 		new_copy = temp1 + str(index) + str(value) + ';' + temp2
 	elif results[1] == 'null':
 		temp_position = results[0]
-		temp1 = file_copy.substr(0, temp_position)
-		temp2 = file_copy.substr(temp_position)
+		temp1 = copy.substr(0, temp_position)
+		temp2 = copy.substr(temp_position)
 		new_copy = temp1 + str(index) + str(value) + ';' + temp2
+	elif results[1] == 'null property':
+		temp_position = copy.find(property) + 2
+		temp1 = copy.substr(0, temp_position)
+		temp2 = copy.substr(temp_position)
+		temp2 = temp2.substr(0, 2).replace('-;', str(index) + str(value) + ';')
+		new_copy = temp1 + temp2 + copy.substr(temp_position + 2)
 	
-	print(new_copy)
 	return new_copy
 
 
@@ -290,16 +336,16 @@ func insert_in_order(indices: Array, index: int):
 	return i
 
 
-func remove_at_index(property: String, index: int):
+# Removes a value from a property at the given index
+func remove_at_index(copy: String, property: String, index: int):
 	var position = seek_to_index(find_property(property), index, false) - 1
 	
-	var f = FileAccess.open(file,FileAccess.READ_WRITE)
-	var file_copy = f.get_as_text()
-	f.close()
+	var temp1 = copy.substr(0, position)
+	position += copy.substr(position).find(';') + 1
+	var temp2 = copy.substr(position)
 	
-	var temp1 = file_copy.substr(0, position)
-	position += file_copy.substr(position).find(';') + 1
-	var temp2 = file_copy.substr(position)
+	if temp1.ends_with('[') and temp2.begins_with(']'):
+		return temp1 + '-;' + temp2
 	
 	return temp1 + temp2
 
