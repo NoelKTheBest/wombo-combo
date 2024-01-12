@@ -1,0 +1,7 @@
+We need a minimum viable product
+
+Idea #1:
+	Create a game with single strikes and after each strike, a propulsive shockwave appears
+
+Idea #2:
+	Create a game with a single combo that maims the victim and forces them into another attack option
