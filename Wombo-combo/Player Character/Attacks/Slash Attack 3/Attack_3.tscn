@@ -1,0 +1,93 @@
+[gd_scene load_steps=14 format=3 uid="uid://da4eatrxpjrom"]
+
+[ext_resource type="Script" path="res://Player Character/Attacks/Slash Attack 3/Attack.gd" id="1_rs34b"]
+[ext_resource type="Texture2D" uid="uid://d108ne7hacc2v" path="res://Player Character/Attacks/Slash Attack 2.png" id="2_4djpf"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b7bv3"]
+atlas = ExtResource("2_4djpf")
+region = Rect2(0, 0, 48, 38)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dm70a"]
+atlas = ExtResource("2_4djpf")
+region = Rect2(48, 0, 48, 38)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_82nj0"]
+atlas = ExtResource("2_4djpf")
+region = Rect2(96, 0, 48, 38)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bt5rj"]
+atlas = ExtResource("2_4djpf")
+region = Rect2(144, 0, 48, 38)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kslm0"]
+atlas = ExtResource("2_4djpf")
+region = Rect2(192, 0, 48, 38)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wgdhw"]
+atlas = ExtResource("2_4djpf")
+region = Rect2(240, 0, 48, 38)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4fi7p"]
+atlas = ExtResource("2_4djpf")
+region = Rect2(288, 0, 48, 38)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h4m41"]
+atlas = ExtResource("2_4djpf")
+region = Rect2(336, 0, 48, 38)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ggjse"]
+atlas = ExtResource("2_4djpf")
+region = Rect2(384, 0, 48, 38)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_rqt2x"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b7bv3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dm70a")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_82nj0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bt5rj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kslm0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wgdhw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4fi7p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h4m41")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ggjse")
+}],
+"loop": false,
+"name": &"default",
+"speed": 11.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_s41di"]
+size = Vector2(8, 16)
+
+[node name="Area2D" type="Area2D"]
+position = Vector2(-5, 0)
+script = ExtResource("1_rs34b")
+metadata/_edit_group_ = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_rqt2x")
+frame_progress = 0.55258
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-1, 2)
+shape = SubResource("RectangleShape2D_s41di")
+
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

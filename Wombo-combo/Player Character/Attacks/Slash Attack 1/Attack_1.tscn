@@ -1,0 +1,90 @@
+[gd_scene load_steps=13 format=3 uid="uid://74q2m1d2b8d6"]
+
+[ext_resource type="Script" path="res://Player Character/Attacks/Slash Attack 1/To_Attack_2.gd" id="1_vqufb"]
+[ext_resource type="Texture2D" uid="uid://c0okkjp5y8xvl" path="res://Player Character/Attacks/Slash Attack 1.png" id="2_3ulhu"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bkafx"]
+atlas = ExtResource("2_3ulhu")
+region = Rect2(0, 0, 48, 38)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6suy1"]
+atlas = ExtResource("2_3ulhu")
+region = Rect2(48, 0, 48, 38)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_472us"]
+atlas = ExtResource("2_3ulhu")
+region = Rect2(96, 0, 48, 38)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y4mvy"]
+atlas = ExtResource("2_3ulhu")
+region = Rect2(144, 0, 48, 38)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m3x4o"]
+atlas = ExtResource("2_3ulhu")
+region = Rect2(192, 0, 48, 38)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fo7bh"]
+atlas = ExtResource("2_3ulhu")
+region = Rect2(240, 0, 48, 38)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2rdah"]
+atlas = ExtResource("2_3ulhu")
+region = Rect2(288, 0, 48, 38)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_twsb3"]
+atlas = ExtResource("2_3ulhu")
+region = Rect2(336, 0, 48, 38)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_jwcd2"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bkafx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6suy1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_472us")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y4mvy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m3x4o")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fo7bh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2rdah")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_twsb3")
+}],
+"loop": false,
+"name": &"default",
+"speed": 11.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dsnvo"]
+size = Vector2(10, 20)
+
+[node name="Area2D" type="Area2D"]
+position = Vector2(13, 2)
+script = ExtResource("1_vqufb")
+metadata/_edit_group_ = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_jwcd2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-15, 0)
+shape = SubResource("RectangleShape2D_dsnvo")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.325
+one_shot = true
+autostart = true
+
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
