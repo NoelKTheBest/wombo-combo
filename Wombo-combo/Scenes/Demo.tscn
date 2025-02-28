@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://b8sjy5he82wv8"]
+
+[ext_resource type="Script" path="res://Scripts/Demo.gd" id="1_tomm2"]
+[ext_resource type="Texture2D" uid="uid://doqvylf5jyyld" path="res://icon.svg" id="2_rgjqe"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_vys3d"]
+
+[node name="Demo" type="Node2D"]
+script = ExtResource("1_tomm2")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(151, 83)
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("2_rgjqe")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_vys3d")
