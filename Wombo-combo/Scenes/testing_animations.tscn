@@ -1,18 +1,126 @@
-[gd_scene load_steps=4 format=3 uid="uid://bhkivc10q5xw8"]
+[gd_scene load_steps=10 format=3 uid="uid://bhkivc10q5xw8"]
 
-[ext_resource type="Texture2D" uid="uid://dok5snfjmn5ah" path="res://Player Character/Attacks/Attack 1.png" id="1_iqfgc"]
+[ext_resource type="Texture2D" uid="uid://cbpqsc67bsvpr" path="res://Red-Blooded/Basic Attacks/Attack 1.png" id="1_iqfgc"]
 [ext_resource type="Animation" uid="uid://hyw64v4omx1x" path="res://Player Character/Strong Attacks/mid_heavy_attack.res" id="2_kbqxp"]
+[ext_resource type="Texture2D" uid="uid://bw01q60m8vxqe" path="res://Red-Blooded/Movement/Idle.png" id="3_qgxs7"]
+
+[sub_resource type="Animation" id="Animation_bnc2u"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("1_iqfgc")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [15]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_x6obl"]
+_data = {
+"RESET": SubResource("Animation_bnc2u")
+}
+
+[sub_resource type="Animation" id="Animation_0tcxh"]
+resource_name = "mid_heavy_attack_2"
+length = 0.5
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(0, 0), Vector2i(1, 0), Vector2i(2, 0), Vector2i(3, 0), Vector2i(4, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:texture")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("3_qgxs7")]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:hframes")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [5]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_0fuvk"]
 _data = {
+"idle": SubResource("Animation_0tcxh"),
 "mid_heavy_attack": ExtResource("2_kbqxp")
+}
+
+[sub_resource type="Animation" id="Animation_oexio"]
+length = 0.5
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(0, 0), Vector2i(1, 0), Vector2i(2, 0), Vector2i(3, 0), Vector2i(4, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ohavh"]
+_data = {
+"Anim1": SubResource("Animation_oexio")
 }
 
 [node name="Sprite2D" type="Sprite2D"]
 texture = ExtResource("1_iqfgc")
 hframes = 15
+frame = 11
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
+"": SubResource("AnimationLibrary_x6obl"),
 "Global": SubResource("AnimationLibrary_0fuvk")
+}
+
+[node name="IdleSprite" type="Sprite2D" parent="."]
+position = Vector2(66, -5)
+texture = ExtResource("3_qgxs7")
+hframes = 5
+
+[node name="IdleSpriteAnimationPlayer" type="AnimationPlayer" parent="IdleSprite"]
+libraries = {
+"": SubResource("AnimationLibrary_ohavh")
 }

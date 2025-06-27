@@ -1,18 +1,18 @@
 [gd_scene load_steps=99 format=3 uid="uid://rpxrjmps5iu4"]
 
 [ext_resource type="Script" path="res://Scripts/Player.gd" id="1_rohmd"]
-[ext_resource type="Texture2D" uid="uid://dljeg2jr7h4u2" path="res://Player Character/Movement/Fall.png" id="2_xek2w"]
-[ext_resource type="Texture2D" uid="uid://0q3ma848plga" path="res://Player Character/Movement/Idle.png" id="3_5vnhw"]
-[ext_resource type="Texture2D" uid="uid://b74qggkqg30lg" path="res://Player Character/Movement/Jump.png" id="4_h6c1c"]
-[ext_resource type="Texture2D" uid="uid://cq1byda44wbfu" path="res://Player Character/Movement/Run.png" id="5_y6pdd"]
-[ext_resource type="Texture2D" uid="uid://cy8ia0wfvbawf" path="res://Player Character/Starters/Unsheate.png" id="7_ia7va"]
-[ext_resource type="Texture2D" uid="uid://x7nsx0o2ch5s" path="res://Player Character/Starters/Stab Side Sheet.png" id="8_ekwuq"]
-[ext_resource type="Texture2D" uid="uid://irl214m81vop" path="res://Player Character/Starters/Stab Front Sheet.png" id="9_qftj1"]
-[ext_resource type="Texture2D" uid="uid://bingaer7vhe4r" path="res://Player Character/Starters/Stab Back Sheet.png" id="10_ng8au"]
-[ext_resource type="Texture2D" uid="uid://c8o4kbfhmnf8i" path="res://Player Character/Starters/Sword Attack Side Sprite No Shadow.png" id="11_m2xi6"]
-[ext_resource type="Texture2D" uid="uid://dbwrdsqftfknm" path="res://Player Character/Starters/Sword Attack Front Sprite No Shadow.png" id="12_7widu"]
-[ext_resource type="Texture2D" uid="uid://dok5snfjmn5ah" path="res://Player Character/Attacks/Attack 1.png" id="13_0jgfq"]
-[ext_resource type="Texture2D" uid="uid://dm8e7eqabuxp7" path="res://Player Character/Starters/Sword Attack Back Sprite.png" id="13_xuatw"]
+[ext_resource type="Texture2D" uid="uid://cw03noo7libpo" path="res://Red-Blooded/Movement/Fall.png" id="2_xek2w"]
+[ext_resource type="Texture2D" uid="uid://bw01q60m8vxqe" path="res://Red-Blooded/Movement/Idle.png" id="3_5vnhw"]
+[ext_resource type="Texture2D" uid="uid://dyxigaboyffu" path="res://Red-Blooded/Movement/Jump.png" id="4_h6c1c"]
+[ext_resource type="Texture2D" uid="uid://d2ut3pg1lu1qq" path="res://Red-Blooded/Movement/Run.png" id="5_y6pdd"]
+[ext_resource type="Texture2D" uid="uid://21vaiuc53ub" path="res://Player Character/Starters/Unsheate.png" id="7_ia7va"]
+[ext_resource type="Texture2D" uid="uid://b184c7s8jiicr" path="res://Player Character/Starters/Stab Side Sheet.png" id="8_ekwuq"]
+[ext_resource type="Texture2D" uid="uid://djglafkdli4oj" path="res://Player Character/Starters/Stab Front Sheet.png" id="9_qftj1"]
+[ext_resource type="Texture2D" uid="uid://cdgb8hwjl6dxa" path="res://Player Character/Starters/Stab Back Sheet.png" id="10_ng8au"]
+[ext_resource type="Texture2D" uid="uid://cysv52ugk4s0s" path="res://Player Character/Starters/Sword Attack Side Sprite No Shadow.png" id="11_m2xi6"]
+[ext_resource type="Texture2D" uid="uid://brao04d5jb2cd" path="res://Player Character/Starters/Sword Attack Front Sprite No Shadow.png" id="12_7widu"]
+[ext_resource type="Texture2D" uid="uid://cbpqsc67bsvpr" path="res://Red-Blooded/Basic Attacks/Attack 1.png" id="13_0jgfq"]
+[ext_resource type="Texture2D" uid="uid://ds026f5gomi4q" path="res://Player Character/Starters/Sword Attack Back Sprite.png" id="13_xuatw"]
 [ext_resource type="Animation" uid="uid://hyw64v4omx1x" path="res://Player Character/Strong Attacks/mid_heavy_attack.res" id="14_ex7k3"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_d14js"]
@@ -664,7 +664,6 @@ script = ExtResource("1_rohmd")
 shape = SubResource("CapsuleShape2D_d14js")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-visible = false
 position = Vector2(1, 0)
 sprite_frames = SubResource("SpriteFrames_jxqtb")
 animation = &"heavy attack"
@@ -676,6 +675,7 @@ metadata/_edit_group_ = true
 shape = SubResource("RectangleShape2D_le7nx")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
 texture = ExtResource("13_0jgfq")
 hframes = 15
 
