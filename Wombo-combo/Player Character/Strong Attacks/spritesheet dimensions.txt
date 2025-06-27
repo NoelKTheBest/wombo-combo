@@ -1,0 +1,3 @@
+735 x 27
+735 / 15 = 49
+frame dimensions: 49 x 27

@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://bhkivc10q5xw8"]
+
+[ext_resource type="Texture2D" uid="uid://dok5snfjmn5ah" path="res://Player Character/Attacks/Attack 1.png" id="1_iqfgc"]
+[ext_resource type="Animation" uid="uid://hyw64v4omx1x" path="res://Player Character/Strong Attacks/mid_heavy_attack.res" id="2_kbqxp"]
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_0fuvk"]
+_data = {
+"mid_heavy_attack": ExtResource("2_kbqxp")
+}
+
+[node name="Sprite2D" type="Sprite2D"]
+texture = ExtResource("1_iqfgc")
+hframes = 15
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"Global": SubResource("AnimationLibrary_0fuvk")
+}

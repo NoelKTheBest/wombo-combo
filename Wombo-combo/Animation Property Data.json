@@ -1,49 +1,49 @@
 {
   "starters": {
-    "_1": {
-      "position": {
-        "_": [12, 0]
-      }
-    },
-    "_Stab": {
-      "position": {
-        "_": [10, 0]
-      }
-    },
-    "_Stab_Down": {
-      "position": {
-        "_": [0, 10]
-      }
-    },
-    "_Stab_Up" : {
-      "posiiton": {
-       "_": [0, -8] 
-      }
-    },
-    "_Sword": {
-      "position": {
-        "_": [10, 0]
-      }
-    },
-    "_Sword_1": {
-      "position": {
-        "_": [10, 0]
-      }
-    },
-    "_Sword_2": {
-      "position": {
-        "_": [10, 0]
-      }
-    },
-    "_Sword_Down": {
-      "position": {
-        "_": [0, 0]
-      }
-    },
-    "_Sword_Up": {
-      "position": {
-        "_": [1, 0]
-      }
-    }
+	"_1": {
+	  "position": {
+		"_": [12, 0]
+	  }
+	},
+	"_Stab": {
+	  "position": {
+		"_": [10, 0]
+	  }
+	},
+	"_Stab_Down": {
+	  "position": {
+		"_": [0, 10]
+	  }
+	},
+	"_Stab_Up" : {
+	  "posiiton": {
+	   "_": [0, -8] 
+	  }
+	},
+	"_Sword": {
+	  "position": {
+		"_": [10, 0]
+	  }
+	},
+	"_Sword_1": {
+	  "position": {
+		"_": [10, 0]
+	  }
+	},
+	"_Sword_2": {
+	  "position": {
+		"_": [10, 0]
+	  }
+	},
+	"_Sword_Down": {
+	  "position": {
+		"_": [0, 0]
+	  }
+	},
+	"_Sword_Up": {
+	  "position": {
+		"_": [1, 0]
+	  }
+	}
   }
 }
