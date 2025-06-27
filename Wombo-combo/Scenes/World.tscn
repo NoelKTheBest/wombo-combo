@@ -1,8 +1,8 @@
 [gd_scene load_steps=7 format=3 uid="uid://c7kt2snnityny"]
 
-[ext_resource type="PackedScene" uid="uid://rpxrjmps5iu4" path="res://Scenes/Player.tscn" id="1_gjrm4"]
+[ext_resource type="PackedScene" uid="uid://rpxrjmps5iu4" path="res://Scenes/Red.tscn" id="1_gjrm4"]
 [ext_resource type="Texture2D" uid="uid://2fk7eesafim2" path="res://icon.svg" id="1_hv2wo"]
-[ext_resource type="Texture2D" uid="uid://cbpqsc67bsvpr" path="res://Red-Blooded/Basic Attacks/Attack 1.png" id="3_8s3e1"]
+[ext_resource type="Texture2D" uid="uid://cbpqsc67bsvpr" path="res://Red/Basic Attacks/Attack 1.png" id="3_8s3e1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4gup5"]
 size = Vector2(1146, 20)

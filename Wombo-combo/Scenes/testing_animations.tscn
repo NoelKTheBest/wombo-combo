@@ -1,8 +1,8 @@
 [gd_scene load_steps=10 format=3 uid="uid://bhkivc10q5xw8"]
 
-[ext_resource type="Texture2D" uid="uid://cbpqsc67bsvpr" path="res://Red-Blooded/Basic Attacks/Attack 1.png" id="1_iqfgc"]
+[ext_resource type="Texture2D" uid="uid://cbpqsc67bsvpr" path="res://Red/Basic Attacks/Attack 1.png" id="1_iqfgc"]
 [ext_resource type="Animation" uid="uid://hyw64v4omx1x" path="res://Player Character/Strong Attacks/mid_heavy_attack.res" id="2_kbqxp"]
-[ext_resource type="Texture2D" uid="uid://bw01q60m8vxqe" path="res://Red-Blooded/Movement/Idle.png" id="3_qgxs7"]
+[ext_resource type="Texture2D" uid="uid://bw01q60m8vxqe" path="res://Red/Movement/Idle.png" id="3_qgxs7"]
 
 [sub_resource type="Animation" id="Animation_bnc2u"]
 length = 0.001

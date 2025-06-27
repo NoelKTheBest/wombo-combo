@@ -1,7 +1,7 @@
 [gd_scene load_steps=13 format=3 uid="uid://74q2m1d2b8d6"]
 
 [ext_resource type="Script" path="res://Player Character/Attacks/Slash Attack 1/To_Attack_2.gd" id="1_vqufb"]
-[ext_resource type="Texture2D" uid="uid://c0okkjp5y8xvl" path="res://Player Character/Attacks/Slash Attack 1.png" id="2_3ulhu"]
+[ext_resource type="Texture2D" uid="uid://deu46artqn1rw" path="res://Player Character/Attacks/Slash Attack 1.png" id="2_3ulhu"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bkafx"]
 atlas = ExtResource("2_3ulhu")
@@ -77,6 +77,8 @@ metadata/_edit_group_ = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_jwcd2")
+frame = 7
+frame_progress = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-15, 0)

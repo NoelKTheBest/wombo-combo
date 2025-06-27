@@ -1,7 +1,7 @@
 [gd_scene load_steps=15 format=3 uid="uid://dgpylq8e02xww"]
 
 [ext_resource type="Script" path="res://Player Character/Attacks/Slash Attack 2/To_Attack_3.gd" id="1_rjye2"]
-[ext_resource type="Texture2D" uid="uid://c0okkjp5y8xvl" path="res://Player Character/Attacks/Slash Attack 1.png" id="2_b5oyl"]
+[ext_resource type="Texture2D" uid="uid://deu46artqn1rw" path="res://Player Character/Attacks/Slash Attack 1.png" id="2_b5oyl"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_eu5qt"]
 atlas = ExtResource("2_b5oyl")
