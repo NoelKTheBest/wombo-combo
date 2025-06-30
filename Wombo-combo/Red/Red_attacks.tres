@@ -1,0 +1,44 @@
+[gd_resource type="AnimationNodeStateMachine" load_steps=9 format=3 uid="uid://bu2dfv2xixpwi"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ry812"]
+animation = &"Attack 1"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_e1lpb"]
+animation = &"Attack 2"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_njweb"]
+animation = &"Attack 3"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_j31fb"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_a3urb"]
+break_loop_at_end = true
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_dkjji"]
+break_loop_at_end = true
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_v2n3q"]
+switch_mode = 2
+advance_mode = 2
+advance_expression = "!transition"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_h23fa"]
+switch_mode = 2
+advance_mode = 2
+advance_expression = "transition"
+
+[resource]
+"states/Attack 1/node" = SubResource("AnimationNodeAnimation_ry812")
+"states/Attack 1/position" = Vector2(347, 49)
+"states/Attack 2/node" = SubResource("AnimationNodeAnimation_e1lpb")
+"states/Attack 2/position" = Vector2(469, 100)
+"states/Attack 3/node" = SubResource("AnimationNodeAnimation_njweb")
+"states/Attack 3/position" = Vector2(588, 146)
+states/End/position = Vector2(739, 100)
+transitions = ["Start", "Attack 1", SubResource("AnimationNodeStateMachineTransition_j31fb"), "Attack 2", "End", SubResource("AnimationNodeStateMachineTransition_a3urb"), "Attack 3", "End", SubResource("AnimationNodeStateMachineTransition_dkjji"), "Attack 1", "End", SubResource("AnimationNodeStateMachineTransition_v2n3q"), "Attack 1", "Attack 2", SubResource("AnimationNodeStateMachineTransition_h23fa")]
+graph_offset = Vector2(132.916, 0)

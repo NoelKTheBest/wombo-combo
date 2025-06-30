@@ -1,21 +1,85 @@
-[gd_scene load_steps=99 format=3 uid="uid://rpxrjmps5iu4"]
+[gd_scene load_steps=117 format=3 uid="uid://rpxrjmps5iu4"]
 
 [ext_resource type="Script" path="res://Scripts/Player.gd" id="1_rohmd"]
 [ext_resource type="Texture2D" uid="uid://cn2gq28vw5v5q" path="res://Player Character/Movement/Fall.png" id="2_bg30v"]
 [ext_resource type="Texture2D" uid="uid://bw01q60m8vxqe" path="res://Red/Movement/Idle.png" id="3_5vnhw"]
+[ext_resource type="Animation" uid="uid://drfatq2juxyi2" path="res://Red/Movement/Idle.res" id="3_83r6c"]
 [ext_resource type="Texture2D" uid="uid://4algx0orr320" path="res://Player Character/Movement/Jump.png" id="4_gi8xc"]
+[ext_resource type="Animation" uid="uid://dw5pkljk8mk5e" path="res://Red/Movement/Walk.res" id="4_tdy6p"]
+[ext_resource type="Animation" uid="uid://bqapjdtguvlap" path="res://Red/Movement/Run.res" id="5_smij3"]
 [ext_resource type="Texture2D" uid="uid://d2ut3pg1lu1qq" path="res://Red/Movement/Run.png" id="5_y6pdd"]
+[ext_resource type="Animation" uid="uid://ca16s375w1n" path="res://Red/Movement/Jump.res" id="6_hsmjh"]
 [ext_resource type="Texture2D" uid="uid://21vaiuc53ub" path="res://Player Character/Starters/Unsheate.png" id="7_ia7va"]
+[ext_resource type="Animation" uid="uid://b65560ngow5yv" path="res://Red/Movement/Fall.res" id="7_yewr6"]
+[ext_resource type="Animation" uid="uid://dicswref4v3f2" path="res://Red/Basic Attacks/Attack 1.res" id="8_51sqs"]
 [ext_resource type="Texture2D" uid="uid://b184c7s8jiicr" path="res://Player Character/Starters/Stab Side Sheet.png" id="8_ekwuq"]
+[ext_resource type="Animation" uid="uid://coww6mp6m08kq" path="res://Red/Basic Attacks/Attack 2.res" id="9_8lg4m"]
 [ext_resource type="Texture2D" uid="uid://djglafkdli4oj" path="res://Player Character/Starters/Stab Front Sheet.png" id="9_qftj1"]
 [ext_resource type="Texture2D" uid="uid://cdgb8hwjl6dxa" path="res://Player Character/Starters/Stab Back Sheet.png" id="10_ng8au"]
+[ext_resource type="Animation" uid="uid://d4b7vrmc56lr0" path="res://Red/Basic Attacks/Attack 3.res" id="10_si137"]
+[ext_resource type="AnimationNodeStateMachine" uid="uid://duj2gfux284gr" path="res://Red/Red_movement.tres" id="11_1du4l"]
 [ext_resource type="Texture2D" uid="uid://cysv52ugk4s0s" path="res://Player Character/Starters/Sword Attack Side Sprite No Shadow.png" id="11_m2xi6"]
 [ext_resource type="Texture2D" uid="uid://brao04d5jb2cd" path="res://Player Character/Starters/Sword Attack Front Sprite No Shadow.png" id="12_7widu"]
 [ext_resource type="Texture2D" uid="uid://cbpqsc67bsvpr" path="res://Red/Basic Attacks/Attack 1.png" id="13_0jgfq"]
 [ext_resource type="Texture2D" uid="uid://ds026f5gomi4q" path="res://Player Character/Starters/Sword Attack Back Sprite.png" id="13_xuatw"]
 [ext_resource type="Animation" uid="uid://hyw64v4omx1x" path="res://Player Character/Strong Attacks/mid_heavy_attack.res" id="14_ex7k3"]
+[ext_resource type="Texture2D" uid="uid://dld2sjgyr01as" path="res://Red/Movement/Movement Spritesheet.png" id="15_2llpl"]
+[ext_resource type="Texture2D" uid="uid://pbwxlv3xfif7" path="res://Red/Movement/RecoverReady.png" id="16_1anug"]
+[ext_resource type="Texture2D" uid="uid://3gbrcdhomdlx" path="res://Red/Basic Attacks/Combo Attack.png" id="17_5fhg5"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_d14js"]
+
+[sub_resource type="Animation" id="Animation_lf5jk"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:hframes")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [6]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:vframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [5]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:texture")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("15_2llpl")]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ncoo4"]
+_data = {
+"Attack 1": ExtResource("8_51sqs"),
+"Attack 2": ExtResource("9_8lg4m"),
+"Attack 3": ExtResource("10_si137"),
+"Fall": ExtResource("7_yewr6"),
+"Idle": ExtResource("3_83r6c"),
+"Jump": ExtResource("6_hsmjh"),
+"RESET": SubResource("Animation_lf5jk"),
+"Run": ExtResource("5_smij3"),
+"Walk": ExtResource("4_tdy6p")
+}
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_r206d"]
 atlas = ExtResource("2_bg30v")
@@ -657,13 +721,100 @@ _data = {
 "mid_heavy_attack": ExtResource("14_ex7k3")
 }
 
+[sub_resource type="Animation" id="Animation_t2xj3"]
+resource_name = "Recover"
+length = 0.5
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(0, 0), Vector2i(1, 0), Vector2i(2, 0), Vector2i(3, 0), Vector2i(4, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_whq7f"]
+_data = {
+"Recover": SubResource("Animation_t2xj3")
+}
+
+[sub_resource type="Animation" id="Animation_w3l58"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:hframes")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [15]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:vframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [3]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:texture")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("17_5fhg5")]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_k0lke"]
+_data = {
+"Attack 1": ExtResource("8_51sqs"),
+"Attack 2": ExtResource("9_8lg4m"),
+"Attack 3": ExtResource("10_si137"),
+"RESET": SubResource("Animation_w3l58")
+}
+
 [node name="CharacterBody2D" type="CharacterBody2D"]
 script = ExtResource("1_rohmd")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_d14js")
 
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("15_2llpl")
+hframes = 6
+vframes = 5
+frame = 5
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite2D"]
+libraries = {
+"": SubResource("AnimationLibrary_ncoo4")
+}
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+root_node = NodePath("../Sprite2D")
+tree_root = ExtResource("11_1du4l")
+advance_expression_base_node = NodePath("..")
+anim_player = NodePath("../Sprite2D/AnimationPlayer")
+
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+visible = false
 position = Vector2(1, 0)
 sprite_frames = SubResource("SpriteFrames_jxqtb")
 animation = &"Start_Stab"
@@ -675,14 +826,41 @@ metadata/_edit_group_ = true
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("RectangleShape2D_le7nx")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+
+[node name="Sprite2Da" type="Sprite2D" parent="."]
 visible = false
 texture = ExtResource("13_0jgfq")
 hframes = 15
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite2D"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite2Da"]
 libraries = {
 "Testing": SubResource("AnimationLibrary_jkguh")
 }
 
+[node name="RecoverReadySprite" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("16_1anug")
+hframes = 5
+
+[node name="RecoverReadySpriteAnimationPlayer" type="AnimationPlayer" parent="RecoverReadySprite"]
+libraries = {
+"": SubResource("AnimationLibrary_whq7f")
+}
+
+[node name="Combo AttackSprite" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("17_5fhg5")
+hframes = 15
+vframes = 3
+frame = 30
+
+[node name="Combo AttackSpriteAnimationPlayer" type="AnimationPlayer" parent="Combo AttackSprite"]
+libraries = {
+"": SubResource("AnimationLibrary_k0lke")
+}
+
+[connection signal="animation_finished" from="AnimationTree" to="." method="_on_animation_tree_animation_finished"]
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
