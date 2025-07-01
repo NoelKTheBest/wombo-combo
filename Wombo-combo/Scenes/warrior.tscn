@@ -1,8 +1,10 @@
-[gd_scene load_steps=75 format=3 uid="uid://b12pkrcrr01fc"]
+[gd_scene load_steps=76 format=3 uid="uid://b12pkrcrr01fc"]
 
 [ext_resource type="Texture2D" uid="uid://u7boi6ualqy" path="res://Warrior/SpriteSheet/Warrior_Sheet-Effect.png" id="1_qc3xi"]
+[ext_resource type="Script" path="res://Scripts/enemy.gd" id="1_ts4ye"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_j7kkc"]
+height = 36.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ydq7f"]
 atlas = ExtResource("1_qc3xi")
@@ -555,10 +557,12 @@ animations = [{
 }]
 
 [node name="CharacterBody2D" type="CharacterBody2D"]
+script = ExtResource("1_ts4ye")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_j7kkc")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(8, -3)
 sprite_frames = SubResource("SpriteFrames_ioik8")
-animation = &"new_animation"
+animation = &"idle"

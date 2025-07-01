@@ -1,8 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://c7kt2snnityny"]
+[gd_scene load_steps=9 format=3 uid="uid://c7kt2snnityny"]
 
 [ext_resource type="PackedScene" uid="uid://rpxrjmps5iu4" path="res://Scenes/Red.tscn" id="1_gjrm4"]
 [ext_resource type="Texture2D" uid="uid://2fk7eesafim2" path="res://icon.svg" id="1_hv2wo"]
+[ext_resource type="Script" path="res://Scripts/Game.gd" id="1_md850"]
 [ext_resource type="Texture2D" uid="uid://cbpqsc67bsvpr" path="res://Red/Basic Attacks/Attack 1.png" id="3_8s3e1"]
+[ext_resource type="PackedScene" uid="uid://b12pkrcrr01fc" path="res://Scenes/Warrior.tscn" id="4_w85yc"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4gup5"]
 size = Vector2(1146, 20)
@@ -29,6 +31,7 @@ _data = {
 }
 
 [node name="Node2D" type="Node2D"]
+script = ExtResource("1_md850")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 
@@ -41,10 +44,10 @@ position = Vector2(179, 191)
 scale = Vector2(8.90625, 0.1875)
 texture = ExtResource("1_hv2wo")
 
-[node name="CharacterBody2D" parent="." instance=ExtResource("1_gjrm4")]
+[node name="RED" parent="." groups=["Player"] instance=ExtResource("1_gjrm4")]
 position = Vector2(165, 163)
 
-[node name="Camera2D" type="Camera2D" parent="CharacterBody2D"]
+[node name="Camera2D" type="Camera2D" parent="RED"]
 
 [node name="Attack 1Sprite" type="Sprite2D" parent="."]
 position = Vector2(45, 163)
@@ -56,3 +59,7 @@ frame = 9
 libraries = {
 "": SubResource("AnimationLibrary_l5cek")
 }
+
+[node name="WARRIOR" parent="." groups=["Enemy"] instance=ExtResource("4_w85yc")]
+visible = false
+position = Vector2(-146, 160)
