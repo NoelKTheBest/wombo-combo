@@ -11,10 +11,17 @@ var attack = false
 var transition = false
 @onready var animator = $AnimatedSprite2D
 @onready var sprite = $Sprite2D
-@onready var hitbox = $Area2D
+@onready var hitbox = $Hitbox
+@onready var hitbox_anim = $Hitbox/AnimationPlayer
 @onready var hurtbox = $CollisionShape2D
-var righthitbox = Vector2(25, 3)
-var lefthitbox
+@onready var hurtbox_anim = $CollisionShape2D/AnimationPlayer
+
+
+func _ready() -> void:
+	hitbox.visible = false
+	hurtbox.position = Vector2(0, 5)
+	pass
+
 
 func _process(delta):
 	if velocity.x < 0:
@@ -58,3 +65,46 @@ func _on_animation_tree_animation_finished(anim_name: StringName) -> void:
 	#print("transition: " + str(transition))
 	attack = false
 	transition = false
+
+
+func _on_animation_tree_animation_started(anim_name: StringName) -> void:
+	if anim_name == "Idle":
+		print("idle") 
+	
+	if sprite.flip_h:
+		match anim_name:
+			"Attack 1":
+				#print("left attack 1")
+				hitbox_anim.play("left_hitbox_1")
+				hurtbox_anim.play("lefthurt1")
+			"Attack 2":
+				#print("left attack 2")
+				hitbox_anim.play("left_hitbox_2")
+				hurtbox_anim.play("lefthurt2")
+			"Attack 3":
+				#print("left attack 3")
+				hitbox_anim.play("left_hitbox_3")
+				hurtbox_anim.play("lefthurt3")
+	else:
+		match anim_name:
+			"Attack 1":
+				#print("right attack 1")
+				hitbox_anim.play("right_hitbox_1")
+				hurtbox_anim.play("righthurt1")
+			"Attack 2":
+				#print("right attack 2")
+				hitbox_anim.play("right_hitbox_2")
+				hurtbox_anim.play("righthurt2")
+			"Attack 3":
+				#print("right attack 3")
+				hitbox_anim.play("right_hitbox_3")
+				hurtbox_anim.play("righthurt3")
+	#hitbox_anim.play("right_hitbox_1")
+
+
+func _on_area_2d_area_entered(area: Area2D) -> void:
+	if area.visible: print(area.name + ": " + str(area.visible))
+
+
+func _on_area_2d_2_area_entered(area: Area2D) -> void:
+	if area.visible: print(area.name + ": " + str(area.visible))

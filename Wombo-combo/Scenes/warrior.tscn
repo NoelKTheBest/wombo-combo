@@ -1,4 +1,4 @@
-[gd_scene load_steps=76 format=3 uid="uid://b12pkrcrr01fc"]
+[gd_scene load_steps=77 format=3 uid="uid://b12pkrcrr01fc"]
 
 [ext_resource type="Texture2D" uid="uid://u7boi6ualqy" path="res://Warrior/SpriteSheet/Warrior_Sheet-Effect.png" id="1_qc3xi"]
 [ext_resource type="Script" path="res://Scripts/enemy.gd" id="1_ts4ye"]
@@ -329,7 +329,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_umhj7")
 }],
-"loop": true,
+"loop": false,
 "name": &"attack",
 "speed": 10.0
 }, {
@@ -358,7 +358,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_1rr0h")
 }],
-"loop": true,
+"loop": false,
 "name": &"dash",
 "speed": 10.0
 }, {
@@ -405,7 +405,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_l1k0j")
 }],
-"loop": true,
+"loop": false,
 "name": &"dash_attack",
 "speed": 10.0
 }, {
@@ -443,7 +443,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_7inyq")
 }],
-"loop": true,
+"loop": false,
 "name": &"death",
 "speed": 10.0
 }, {
@@ -477,7 +477,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_twwg0")
 }],
-"loop": true,
+"loop": false,
 "name": &"hurt",
 "speed": 10.0
 }, {
@@ -556,6 +556,9 @@ animations = [{
 "speed": 10.0
 }]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_63tn5"]
+size = Vector2(20, 33)
+
 [node name="CharacterBody2D" type="CharacterBody2D"]
 script = ExtResource("1_ts4ye")
 
@@ -563,6 +566,16 @@ script = ExtResource("1_ts4ye")
 shape = SubResource("CapsuleShape2D_j7kkc")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(8, -3)
+position = Vector2(9, -3)
 sprite_frames = SubResource("SpriteFrames_ioik8")
 animation = &"idle"
+flip_h = true
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, 1.5)
+shape = SubResource("RectangleShape2D_63tn5")
+
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
