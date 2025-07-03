@@ -1,11 +1,21 @@
 extends CharacterBody2D
 
+@export var dash_distance = 70
+@export var attack_distance = 20
 
-const SPEED = 100
 const JUMP_VELOCITY = -400.0
 
+var speed = 100
 var current_anim = "idle"
-var player_position
+var current_state = "idle"
+var player_position : Vector2
+var attack_count = 0
+var close_to_player = false
+var close_for_dash = false
+var attacking = false
+var was_hit = false
+var player_is_dead = false
+
 @onready var animator = $AnimatedSprite2D
 @onready var collider = $CollisionShape2D
 @onready var hitbox = $Area2D/CollisionShape2D
@@ -13,6 +23,7 @@ var player_position
 
 func _ready() -> void:
 	animator.play(current_anim)
+	close_to_player = false
 
 
 func _process(delta: float) -> void:
@@ -24,6 +35,40 @@ func _process(delta: float) -> void:
 		animator.flip_h = false
 		collider.position = Vector2(0, 0)
 		hitbox.position = Vector2(0, 1.5)
+	
+	
+	if close_to_player:
+		if attack_count < 3:
+			if !attacking and !was_hit:
+				current_state = "attacking"
+				animator.play("attack")
+				attacking = true
+				attack_count += 1
+		elif attack_count == 3:
+			if !attacking and !was_hit:
+				current_state = "dash attack"
+				animator.play("dash_attack")
+				attacking = true
+				attack_count = 0
+	elif close_for_dash:
+		if attack_count < 3 and !attacking:
+			current_state = "run"
+		elif attack_count == 3:
+			if !attacking and !was_hit:
+				current_state = "dash attack"
+				animator.play("dash_attack")
+				attacking = true
+				attack_count = 0
+	elif !close_for_dash and !attacking:
+		current_state = "run"
+	elif player_is_dead:
+		current_state = "idle"
+	
+	if current_state == "run" and !attacking and !was_hit:
+		animator.play("run")
+	
+	$Label.text = current_state
+	print(close_to_player)
 
 
 func _physics_process(delta: float) -> void:
@@ -35,11 +80,26 @@ func _physics_process(delta: float) -> void:
 	# As good practice, you should replace UI actions with custom gameplay actions.
 	var direction
 	var target_position = (player_position - position).normalized()
+	var distance_to = position.distance_to(player_position)
 	
-	if position.distance_to(player_position) > 35:
-		if visible: 
-			velocity.x = target_position.x * SPEED
-			animator.play("run")
+	if distance_to > attack_distance:
+		if current_state == "run": 
+			velocity.x = target_position.x * speed
+			move_and_slide()
+		close_to_player = false
+	elif distance_to < attack_distance:
+		close_to_player = true
+	
+	if distance_to < attack_distance:
+		close_for_dash = true
+	elif distance_to < dash_distance and distance_to > attack_distance:
+		close_for_dash = true
+	elif distance_to > dash_distance:
+		close_for_dash = false
+	
+	if close_for_dash and current_state == "dash attack":
+		speed = 200
+		velocity.x = target_position.x * speed
 		move_and_slide()
 	
 	#print(position.distance_to(player_position))
@@ -52,8 +112,12 @@ func find_player(player_pos: Vector2) -> void:
 func _on_area_2d_area_entered(area: Area2D) -> void:
 	if area.visible:
 		animator.play("hurt")
-	print(area.name + ": " + str(area.visible))
+		was_hit = true
+	#print(area.name + ": " + str(area.visible))
 
 
 func _on_animated_sprite_2d_animation_finished() -> void:
 	animator.play("idle")
+	attacking = false
+	speed = 100
+	was_hit = false

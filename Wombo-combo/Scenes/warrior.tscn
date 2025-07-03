@@ -1,4 +1,4 @@
-[gd_scene load_steps=77 format=3 uid="uid://b12pkrcrr01fc"]
+[gd_scene load_steps=75 format=3 uid="uid://b12pkrcrr01fc"]
 
 [ext_resource type="Texture2D" uid="uid://u7boi6ualqy" path="res://Warrior/SpriteSheet/Warrior_Sheet-Effect.png" id="1_qc3xi"]
 [ext_resource type="Script" path="res://Scripts/enemy.gd" id="1_ts4ye"]
@@ -86,10 +86,6 @@ region = Rect2(138, 528, 69, 44)
 atlas = ExtResource("1_qc3xi")
 region = Rect2(207, 528, 69, 44)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_pu13q"]
-atlas = ExtResource("1_qc3xi")
-region = Rect2(138, 484, 69, 44)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_lancx"]
 atlas = ExtResource("1_qc3xi")
 region = Rect2(207, 484, 69, 44)
@@ -105,10 +101,6 @@ region = Rect2(345, 484, 69, 44)
 [sub_resource type="AtlasTexture" id="AtlasTexture_f0bfk"]
 atlas = ExtResource("1_qc3xi")
 region = Rect2(0, 528, 69, 44)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_rmvs0"]
-atlas = ExtResource("1_qc3xi")
-region = Rect2(345, 528, 69, 44)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_t8ixx"]
 atlas = ExtResource("1_qc3xi")
@@ -364,9 +356,6 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_pu13q")
-}, {
-"duration": 1.0,
 "texture": SubResource("AtlasTexture_lancx")
 }, {
 "duration": 1.0,
@@ -377,9 +366,6 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_f0bfk")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_rmvs0")
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_t8ixx")
@@ -568,7 +554,7 @@ shape = SubResource("CapsuleShape2D_j7kkc")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(9, -3)
 sprite_frames = SubResource("SpriteFrames_ioik8")
-animation = &"idle"
+animation = &"dash_attack"
 flip_h = true
 
 [node name="Area2D" type="Area2D" parent="."]
@@ -576,6 +562,12 @@ flip_h = true
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 position = Vector2(0, 1.5)
 shape = SubResource("RectangleShape2D_63tn5")
+
+[node name="Label" type="Label" parent="."]
+offset_left = -52.0
+offset_top = -48.0
+offset_right = 59.0
+offset_bottom = -25.0
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
