@@ -13,14 +13,15 @@ var transition = false
 @onready var sprite = $Sprite2D
 @onready var hitbox = $Hitbox
 @onready var hitbox_anim = $Hitbox/AnimationPlayer
-@onready var hurtbox = $CollisionShape2D
-@onready var hurtbox_anim = $CollisionShape2D/AnimationPlayer
+@onready var collider = $CollisionShape2D
+@onready var collider_anim = $CollisionShape2D/AnimationPlayer
+@onready var hurtbox_anim = $Hurtbox/AnimationPlayer
 
 
 func _ready() -> void:
+	$AnimationTree.active = true
 	hitbox.visible = false
-	hurtbox.position = Vector2(0, 5)
-	pass
+	collider.position = Vector2(0, 5)
 
 
 func _process(delta):
@@ -76,35 +77,41 @@ func _on_animation_tree_animation_started(anim_name: StringName) -> void:
 			"Attack 1":
 				#print("left attack 1")
 				hitbox_anim.play("left_hitbox_1")
-				hurtbox_anim.play("lefthurt1")
+				collider_anim.play("lefthurt1")
+				hurtbox_anim.play("collision_and_hurtbox_animations/lefthurt1")
 			"Attack 2":
 				#print("left attack 2")
 				hitbox_anim.play("left_hitbox_2")
-				hurtbox_anim.play("lefthurt2")
+				collider_anim.play("lefthurt2")
+				hurtbox_anim.play("collision_and_hurtbox_animations/lefthurt2")
 			"Attack 3":
 				#print("left attack 3")
 				hitbox_anim.play("left_hitbox_3")
-				hurtbox_anim.play("lefthurt3")
+				collider_anim.play("lefthurt3")
+				hurtbox_anim.play("collision_and_hurtbox_animations/lefthurt3")
 	else:
 		match anim_name:
 			"Attack 1":
 				#print("right attack 1")
 				hitbox_anim.play("right_hitbox_1")
-				hurtbox_anim.play("righthurt1")
+				collider_anim.play("righthurt1")
+				hurtbox_anim.play("collision_and_hurtbox_animations/righthurt1")
 			"Attack 2":
 				#print("right attack 2")
 				hitbox_anim.play("right_hitbox_2")
-				hurtbox_anim.play("righthurt2")
+				collider_anim.play("righthurt2")
+				hurtbox_anim.play("collision_and_hurtbox_animations/righthurt2")
 			"Attack 3":
 				#print("right attack 3")
 				hitbox_anim.play("right_hitbox_3")
-				hurtbox_anim.play("righthurt3")
+				collider_anim.play("righthurt3")
+				hurtbox_anim.play("collision_and_hurtbox_animations/righthurt3")
 	#hitbox_anim.play("right_hitbox_1")
 
 
-func _on_area_2d_area_entered(area: Area2D) -> void:
-	if area.visible: print(area.name + ": " + str(area.visible))
+func _on_hurtbox_area_entered(area: Area2D) -> void:
+	print(area.name)
 
 
-func _on_area_2d_2_area_entered(area: Area2D) -> void:
-	if area.visible: print(area.name + ": " + str(area.visible))
+func _on_hitbox_area_entered(area: Area2D) -> void:
+	print(area.name)

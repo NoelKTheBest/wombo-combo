@@ -18,7 +18,8 @@ var player_is_dead = false
 
 @onready var animator = $AnimatedSprite2D
 @onready var collider = $CollisionShape2D
-@onready var hitbox = $Area2D/CollisionShape2D
+@onready var hitbox = $Hitbox/CollisionShape2D
+@onready var hurtbox
 
 
 func _ready() -> void:
@@ -68,7 +69,6 @@ func _process(delta: float) -> void:
 		animator.play("run")
 	
 	$Label.text = current_state
-	print(close_to_player)
 
 
 func _physics_process(delta: float) -> void:

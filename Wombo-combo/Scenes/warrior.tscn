@@ -1,4 +1,4 @@
-[gd_scene load_steps=75 format=3 uid="uid://b12pkrcrr01fc"]
+[gd_scene load_steps=76 format=3 uid="uid://b12pkrcrr01fc"]
 
 [ext_resource type="Texture2D" uid="uid://u7boi6ualqy" path="res://Warrior/SpriteSheet/Warrior_Sheet-Effect.png" id="1_qc3xi"]
 [ext_resource type="Script" path="res://Scripts/enemy.gd" id="1_ts4ye"]
@@ -545,6 +545,8 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_63tn5"]
 size = Vector2(20, 33)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xlkdr"]
+
 [node name="CharacterBody2D" type="CharacterBody2D"]
 script = ExtResource("1_ts4ye")
 
@@ -557,17 +559,23 @@ sprite_frames = SubResource("SpriteFrames_ioik8")
 animation = &"dash_attack"
 flip_h = true
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="Hitbox" type="Area2D" parent="."]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
 position = Vector2(0, 1.5)
 shape = SubResource("RectangleShape2D_63tn5")
 
 [node name="Label" type="Label" parent="."]
+visible = false
 offset_left = -52.0
 offset_top = -48.0
 offset_right = 59.0
 offset_bottom = -25.0
 
+[node name="Hurtbox" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+shape = SubResource("RectangleShape2D_xlkdr")
+
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
-[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="area_entered" from="Hitbox" to="." method="_on_area_2d_area_entered"]
