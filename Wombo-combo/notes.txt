@@ -1,1 +1,1 @@
- Tomorrow, if we have time or whenever you can, let's just focus on damage calculation.
+hitbox detection is working good for right now, however we need to make sure that the hitbox only appears on frames with attacks

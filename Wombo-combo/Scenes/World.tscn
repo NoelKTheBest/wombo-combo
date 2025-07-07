@@ -64,7 +64,7 @@ libraries = {
 }
 
 [node name="WARRIOR" parent="." groups=["Enemy"] instance=ExtResource("4_w85yc")]
-position = Vector2(-140, 160)
+position = Vector2(-128, 159)
 dash_distance = 120
 attack_distance = 30
 

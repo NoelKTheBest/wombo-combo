@@ -19,23 +19,26 @@ var player_is_dead = false
 @onready var animator = $AnimatedSprite2D
 @onready var collider = $CollisionShape2D
 @onready var hitbox = $Hitbox/CollisionShape2D
-@onready var hurtbox
+@onready var hurtbox = $Hurtbox/CollisionShape2D
 
 
 func _ready() -> void:
 	animator.play(current_anim)
 	close_to_player = false
+	hitbox.visible = false
 
 
 func _process(delta: float) -> void:
 	if velocity.x < 0: 
 		animator.flip_h = true
 		collider.position = Vector2(16, 0)
-		hitbox.position = Vector2(16, 1.5)
+		if !attacking: hitbox.position = Vector2(16, 1.5)
+		hurtbox.position = Vector2(16, 1.5)
 	elif velocity.x > 0: 
 		animator.flip_h = false
 		collider.position = Vector2(0, 0)
-		hitbox.position = Vector2(0, 1.5)
+		if !attacking: hitbox.position = Vector2(0, 1.5)
+		hurtbox.position = Vector2(0, 1.5)
 	
 	
 	if close_to_player:
@@ -45,12 +48,16 @@ func _process(delta: float) -> void:
 				animator.play("attack")
 				attacking = true
 				attack_count += 1
+				hitbox.position = Vector2(-10, 1.5) if animator.flip_h == true else Vector2(28, 1.5)
+				hitbox.visible = true
 		elif attack_count == 3:
 			if !attacking and !was_hit:
 				current_state = "dash attack"
 				animator.play("dash_attack")
 				attacking = true
 				attack_count = 0
+				hitbox.position = Vector2(-15, 1.5) if animator.flip_h == true else Vector2(33, 1.5)
+				hitbox.visible = true
 	elif close_for_dash:
 		if attack_count < 3 and !attacking:
 			current_state = "run"
@@ -60,6 +67,8 @@ func _process(delta: float) -> void:
 				animator.play("dash_attack")
 				attacking = true
 				attack_count = 0
+				hitbox.position = Vector2(-15, 1.5) if animator.flip_h == true else Vector2(33, 1.5)
+				hitbox.visible = true
 	elif !close_for_dash and !attacking:
 		current_state = "run"
 	elif player_is_dead:
@@ -109,15 +118,19 @@ func find_player(player_pos: Vector2) -> void:
 	player_position = player_pos
 
 
-func _on_area_2d_area_entered(area: Area2D) -> void:
-	if area.visible:
-		animator.play("hurt")
-		was_hit = true
-	#print(area.name + ": " + str(area.visible))
-
-
 func _on_animated_sprite_2d_animation_finished() -> void:
 	animator.play("idle")
 	attacking = false
 	speed = 100
 	was_hit = false
+	hitbox.visible = false
+
+
+func _on_hurtbox_area_entered(area: Area2D) -> void:
+	#if area.visible and area.name == "Hitbox":
+	#	animator.play("hurt")
+	#	was_hit = true
+	if !is_in_group(area.name):
+		animator.play("hurt")
+		was_hit = true
+	#print(area.name + ": " + str(area.visible))

@@ -110,8 +110,7 @@ func _on_animation_tree_animation_started(anim_name: StringName) -> void:
 
 
 func _on_hurtbox_area_entered(area: Area2D) -> void:
-	print(area.name)
-
-
-func _on_hitbox_area_entered(area: Area2D) -> void:
-	print(area.name)
+	if !is_in_group(area.name):
+		print("do nothing")
+	else:
+		print(area.name + "hurtbox was hit")

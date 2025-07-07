@@ -543,9 +543,10 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_63tn5"]
-size = Vector2(20, 33)
+size = Vector2(20, 21)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xlkdr"]
+size = Vector2(20, 33)
 
 [node name="CharacterBody2D" type="CharacterBody2D"]
 script = ExtResource("1_ts4ye")
@@ -556,13 +557,16 @@ shape = SubResource("CapsuleShape2D_j7kkc")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(9, -3)
 sprite_frames = SubResource("SpriteFrames_ioik8")
-animation = &"dash_attack"
+animation = &"attack"
+frame = 6
+frame_progress = 0.686342
 flip_h = true
 
-[node name="Hitbox" type="Area2D" parent="."]
+[node name="Hitbox" type="Area2D" parent="." groups=["Enemy Colliders"]]
+modulate = Color(0.619608, 0, 0.788235, 1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
-position = Vector2(0, 1.5)
+position = Vector2(-10, 1)
 shape = SubResource("RectangleShape2D_63tn5")
 
 [node name="Label" type="Label" parent="."]
@@ -572,10 +576,11 @@ offset_top = -48.0
 offset_right = 59.0
 offset_bottom = -25.0
 
-[node name="Hurtbox" type="Area2D" parent="."]
+[node name="Hurtbox" type="Area2D" parent="." groups=["Enemy Colliders"]]
+modulate = Color(0.45098, 1, 0, 1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+position = Vector2(0, 1.5)
 shape = SubResource("RectangleShape2D_xlkdr")
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
-[connection signal="area_entered" from="Hitbox" to="." method="_on_area_2d_area_entered"]
