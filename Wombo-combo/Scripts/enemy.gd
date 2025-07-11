@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
 @export var dash_distance = 70
-@export var attack_distance = 20
+var attack_distance = 30
 
 const JUMP_VELOCITY = -400.0
 
@@ -15,6 +15,8 @@ var close_for_dash = false
 var attacking = false
 var was_hit = false
 var player_is_dead = false
+var frame = 0
+var dash_frame = 0
 
 @onready var animator = $AnimatedSprite2D
 @onready var collider = $CollisionShape2D
@@ -34,12 +36,13 @@ func _process(delta: float) -> void:
 		collider.position = Vector2(16, 0)
 		if !attacking: hitbox.position = Vector2(16, 1.5)
 		hurtbox.position = Vector2(16, 1.5)
+		attack_distance = 20
 	elif velocity.x > 0: 
 		animator.flip_h = false
 		collider.position = Vector2(0, 0)
 		if !attacking: hitbox.position = Vector2(0, 1.5)
 		hurtbox.position = Vector2(0, 1.5)
-	
+		attack_distance = 30
 	
 	if close_to_player:
 		if attack_count < 3:
@@ -49,7 +52,7 @@ func _process(delta: float) -> void:
 				attacking = true
 				attack_count += 1
 				hitbox.position = Vector2(-10, 1.5) if animator.flip_h == true else Vector2(28, 1.5)
-				hitbox.visible = true
+				#hitbox.visible = true
 		elif attack_count == 3:
 			if !attacking and !was_hit:
 				current_state = "dash attack"
@@ -57,7 +60,7 @@ func _process(delta: float) -> void:
 				attacking = true
 				attack_count = 0
 				hitbox.position = Vector2(-15, 1.5) if animator.flip_h == true else Vector2(33, 1.5)
-				hitbox.visible = true
+				#hitbox.visible = true
 	elif close_for_dash:
 		if attack_count < 3 and !attacking:
 			current_state = "run"
@@ -68,7 +71,7 @@ func _process(delta: float) -> void:
 				attacking = true
 				attack_count = 0
 				hitbox.position = Vector2(-15, 1.5) if animator.flip_h == true else Vector2(33, 1.5)
-				hitbox.visible = true
+				#hitbox.visible = true
 	elif !close_for_dash and !attacking:
 		current_state = "run"
 	elif player_is_dead:
@@ -76,6 +79,11 @@ func _process(delta: float) -> void:
 	
 	if current_state == "run" and !attacking and !was_hit:
 		animator.play("run")
+	
+	if was_hit:
+		speed = 0
+	else:
+		speed = 100
 	
 	$Label.text = current_state
 
@@ -130,7 +138,34 @@ func _on_hurtbox_area_entered(area: Area2D) -> void:
 	#if area.visible and area.name == "Hitbox":
 	#	animator.play("hurt")
 	#	was_hit = true
-	if !is_in_group(area.name):
+	if area.is_in_group("Player Hitbox") and area.visible:
 		animator.play("hurt")
 		was_hit = true
 	#print(area.name + ": " + str(area.visible))
+
+
+func _on_animated_sprite_2d_frame_changed() -> void:
+	if current_state != "attacking": frame = 0
+	if current_state != "dash attack": dash_frame = 0
+	
+	if current_state == "attacking": 
+		frame += 1
+		print(frame)
+	
+	if current_state == "dash attack":
+		dash_frame += 1
+		print(dash_frame)
+	
+	if frame == 5:
+		hitbox.visible = true
+	
+	if frame == 11:
+		frame = 0
+		hitbox.visible = false
+	
+	if dash_frame == 5:
+		hitbox.visible = true
+	
+	if dash_frame == 11:
+		dash_frame = 0
+		hitbox.visible = false

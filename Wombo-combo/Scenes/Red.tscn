@@ -380,7 +380,7 @@ tree_root = ExtResource("11_1du4l")
 advance_expression_base_node = NodePath("..")
 anim_player = NodePath("../Sprite2D/AnimationPlayer")
 
-[node name="Hitbox" type="Area2D" parent="." groups=["Player Collision"]]
+[node name="Hitbox" type="Area2D" parent="." groups=["Player Collision", "Player Hitbox"]]
 modulate = Color(0.618833, 0, 0.79, 1)
 position = Vector2(11, 6)
 metadata/_edit_group_ = true

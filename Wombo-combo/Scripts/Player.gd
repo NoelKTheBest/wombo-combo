@@ -9,13 +9,14 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 var time_left
 var attack = false
 var transition = false
-@onready var animator = $AnimatedSprite2D
+@onready var animator = $Sprite2D/AnimationPlayer
 @onready var sprite = $Sprite2D
 @onready var hitbox = $Hitbox
 @onready var hitbox_anim = $Hitbox/AnimationPlayer
 @onready var collider = $CollisionShape2D
 @onready var collider_anim = $CollisionShape2D/AnimationPlayer
 @onready var hurtbox_anim = $Hurtbox/AnimationPlayer
+@onready var tree = $AnimationTree
 
 
 func _ready() -> void:
@@ -62,7 +63,8 @@ func _physics_process(delta):
 
 
 func _on_animation_tree_animation_finished(anim_name: StringName) -> void:
-	#print(anim_name)
+	if anim_name == "Hit":
+		tree.active = true
 	#print("transition: " + str(transition))
 	attack = false
 	transition = false
@@ -110,7 +112,9 @@ func _on_animation_tree_animation_started(anim_name: StringName) -> void:
 
 
 func _on_hurtbox_area_entered(area: Area2D) -> void:
-	if !is_in_group(area.name):
-		print("do nothing")
+	if area.is_in_group("Enemy Hitbox") and area.visible:
+		print(area.get_parent().name)
+		tree.active = false
+		animator.play("Hit")
 	else:
-		print(area.name + "hurtbox was hit")
+		print("do nothing")
