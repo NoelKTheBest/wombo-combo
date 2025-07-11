@@ -150,11 +150,11 @@ func _on_animated_sprite_2d_frame_changed() -> void:
 	
 	if current_state == "attacking": 
 		frame += 1
-		print(frame)
+		#print(frame)
 	
 	if current_state == "dash attack":
 		dash_frame += 1
-		print(dash_frame)
+		#print(dash_frame)
 	
 	if frame == 5:
 		hitbox.visible = true

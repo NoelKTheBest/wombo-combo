@@ -63,6 +63,7 @@ func _physics_process(delta):
 
 
 func _on_animation_tree_animation_finished(anim_name: StringName) -> void:
+	print(anim_name)
 	if anim_name == "Hit":
 		tree.active = true
 	#print("transition: " + str(transition))
@@ -114,7 +115,7 @@ func _on_animation_tree_animation_started(anim_name: StringName) -> void:
 func _on_hurtbox_area_entered(area: Area2D) -> void:
 	if area.is_in_group("Enemy Hitbox") and area.visible:
 		print(area.get_parent().name)
-		tree.active = false
-		animator.play("Hit")
+		#tree.active = false
+		#animator.play("Hit")
 	else:
 		print("do nothing")
